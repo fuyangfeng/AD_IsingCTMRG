@@ -44,7 +44,7 @@ function CTM(corner::Matrix{Float64}, edge::Array{Float64,3},T::Array{Float64,4}
             EntangS= - sum( vals .* log.(vals))
             return edge, corner,EntangS,diff, TrunErro 
         end
-        if mod(iter, 100) == 0
+        if mod(iter, 1000) == 0
             lnz, M,U = getCtmFMU(edge, corner,T, Tm, Tu)
             ErrorZ = abs(lnz - oldlnz)
             ErrorM = abs(M - oldm)

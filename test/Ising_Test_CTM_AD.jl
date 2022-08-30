@@ -132,5 +132,10 @@ function main(Tem::Float64,Dbond::Int64,CTMRGstep::Int64)
 end
 
 
-fuction test()
-tem =  vcat(collect(2:0.005:2.268),collect(2.269:0.001:2.27),collect(2.271:0.005:2.5))
+function test()
+    tem =  vcat(collect(2:0.005:2.268),collect(2.269:0.001:2.27),collect(2.271:0.005:2.5))
+    for i in tem
+        @time main(i,80)
+    end
+end
+test()

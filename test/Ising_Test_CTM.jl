@@ -32,7 +32,7 @@ function GetFMU(Corner::Matrix{Float64}, Edge::Array{Float64,3}, T::Array{Float6
 end
 function main(Tem::Float64,Dbond::Int64)
 
-    D,J , step =  2, 1.0 , 500
+    D,J , step =  2, 1.0 , 10000
 
     # step 1 : get Ising local Tensor
     T, Tm, Tu = GetIsingTensor(1/Tem, J)
@@ -52,7 +52,7 @@ function main(Tem::Float64,Dbond::Int64)
     end  
 
     # step 3 : perform CTM and save the lastest environment
-    @time  edge, corner,EntangS, diff,TrunError = CTM(corner, edge,T,Tm,Tu, D,Dbond, step, 1e-15)
+    @time  edge, corner,EntangS, diff,TrunError = CTM(corner, edge,T,Tm,Tu, D,Dbond, step, 1e-16)
     Env = jldopen("../Env/Env_Dbond=$(Dbond)_Tem=$(Tem).jld2","w")
     write(Env, "edge", edge)
     write(Env, "corner", corner)
