@@ -33,17 +33,17 @@ end
 function getmyfig()
 
     path = []
-    path=vcat(path, [  "D:/Users/FYF/Desktop/Ising_test/plot/Isingexact.txt"  ])
-    path=vcat(path, [  "D:/Users/FYF/Desktop/Ising_test/data/data40.txt"  ])
-    path=vcat(path, [  "D:/Users/FYF/Desktop/Ising_test/data/Ising_AD_CTMCTMRGstep=20_D=80.txt"  ])
+    path=vcat(path, [  "../data/IsingExact.txt"  ])
+    path=vcat(path, [  "../data/ADTRGstep=40.txt"  ])
+    path=vcat(path, [  "../data/Ising_AD_CTMRGstep=10_D=80.txt"  ])
 
     flag = [1 2]
     flag=vcat(flag, [2 2])
     flag=vcat(flag, [3 2])
     legendlabel2 = []  
     legendlabel2=vcat(legendlabel2, [  "exact solution"  ])
-    legendlabel2=vcat(legendlabel2, [  "TRGstep=60"  ])
-    legendlabel2=vcat(legendlabel2, [  "CTMRGstep = 20"  ])
+    legendlabel2=vcat(legendlabel2, [  "TRGstep=40"  ])
+    legendlabel2=vcat(legendlabel2, [  "CTMRGstep = 10"  ])
     myplot2(path,flag,legendlabel2 ,["β","lnz"])
 
 
@@ -54,9 +54,9 @@ function getmyfig()
     flag=vcat(flag, [3 8])
     legendlabel2 = []  
     legendlabel2=vcat(legendlabel2, [  "exact solution"  ])
-    legendlabel2=vcat(legendlabel2, [  "TRGstep=60"  ])
-    legendlabel2=vcat(legendlabel2, [  "CTMRGstep=20_AD by U"  ])
-    legendlabel2=vcat(legendlabel2, [  "CTMRGstep=20_AD by F"  ])
+    legendlabel2=vcat(legendlabel2, [  "TRGstep=40"  ])
+    legendlabel2=vcat(legendlabel2, [  "CTMRGstep=10_AD by U"  ])
+    legendlabel2=vcat(legendlabel2, [  "CTMRGstep=10_AD by F"  ])
     myplot2(path,flag,legendlabel2 ,["β","Cv"])
 
 
@@ -66,9 +66,9 @@ function getmyfig()
     flag=vcat(flag, [3 7])
     legendlabel2 = []  
     legendlabel2=vcat(legendlabel2, [  "exact solution"  ])
-    legendlabel2=vcat(legendlabel2, [  "TRGstep=60"  ])
-    legendlabel2=vcat(legendlabel2, [  "CTMRGstep = 20"  ])
-    legendlabel2=vcat(legendlabel2, [  "CTMRGstep = 20_AD"  ])
+    legendlabel2=vcat(legendlabel2, [  "TRGstep=40"  ])
+    legendlabel2=vcat(legendlabel2, [  "CTMRGstep = 10"  ])
+    legendlabel2=vcat(legendlabel2, [  "CTMRGstep = 10_AD"  ])
     myplot2(path,flag,legendlabel2 ,["β","Uenergy"])
 
 end
