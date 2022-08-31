@@ -93,7 +93,7 @@ end
 
 function main(Tem::Float64,Dbond::Int64,CTMRGstep::Int64)
     D,J=2,1.0
-    Env=jldopen("../../Env/Env_Dbond=$(Dbond)_Tem=$(Tem).jld2","r")
+    Env=jldopen("../Env/Env_Dbond=$(Dbond)_Tem=$(Tem).jld2","r")
     edge=read(Env,"edge")
     corner=read(Env,"corner")
     close(Env)
@@ -124,7 +124,7 @@ function main(Tem::Float64,Dbond::Int64,CTMRGstep::Int64)
     @show  Cv_AD1
 
 
-    open( "../../data/Ising_AD_CTMRGstep=$(CTMRGstep)_D=$(Dbond).txt", "a" ) do io  
+    open( "../data/Ising_AD_CTMRGstep=$(CTMRGstep)_D=$(Dbond).txt", "a" ) do io  
         writedlm( io, [1/Tem  lnz  Magnetization  Uenergy Cm  Cv U_AD Cv_AD1  ] )
     end
 
