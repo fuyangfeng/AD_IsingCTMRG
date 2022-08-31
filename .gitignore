@@ -1,0 +1,4 @@
+.vscode
+.Manifest.toml
+*.jld2
+*.txt
