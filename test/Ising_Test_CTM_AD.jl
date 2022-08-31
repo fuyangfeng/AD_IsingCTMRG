@@ -124,7 +124,7 @@ function main(Tem::Float64,Dbond::Int64,CTMRGstep::Int64)
     @show  Cv_AD1
 
 
-    open( "../../data/Ising_AD_CTMCTMRGstep=$(CTMRGstep)_D=$(Dbond).txt", "a" ) do io  
+    open( "../../data/Ising_AD_CTMRGstep=$(CTMRGstep)_D=$(Dbond).txt", "a" ) do io  
         writedlm( io, [1/Tem  lnz  Magnetization  Uenergy Cm  Cv U_AD Cv_AD1  ] )
     end
 
