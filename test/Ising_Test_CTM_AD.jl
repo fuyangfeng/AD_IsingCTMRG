@@ -1,14 +1,15 @@
-using LinearAlgebra: norm,Diagonal,tr 
+using LinearAlgebra: norm,Diagonal,tr
 using OMEinsum 
 using Zygote
 using DelimitedFiles
 using JLD2
-using GenericLinearAlgebra: svd
+
+include("../src/autodiff.jl")
 
 function GetIsingTensor(BetaT, J::Float64)
     H = - J * [1 -1; -1 1]
     BW = exp.(-BetaT * H)
-    U, S,_ = svd(BW)
+    U, S,_ = mysvd(BW)
     W = U * Diagonal(sqrt.(S))
     s = [1; -1]
     E = (H .* BW * U) .* (1 ./ sqrt.(abs.(S)))'
@@ -24,7 +25,7 @@ function CTMiter(corner, edge, T, D::Int64, Dbond::Int64)
     @ein CEE[d,k,c,i] := CE[b,d,k] * edge[b, c, i]
     @ein cp[c,l,d,j]   := CEE[d,k,c,i] * T[i, j, k, l]
     cpmat = reshape(cp, Dbond*D, Dbond*D)
-    u, s,_= svd(cpmat)
+    u, s,_= mysvd(cpmat)
     z = reshape(u[:, 1:Dbond], Dbond, D, Dbond)
     @ein corner[m, n] :=z[d, j, n] * (cp[c, l, d, j] * z[c, l, m])
     @ein edge[c,d,j] := ((z[a,k,c] * edge[a,b,i]) * T[i,j,k,l] )* z[b,l,d]
@@ -93,7 +94,7 @@ end
 
 function main(Tem::Float64,Dbond::Int64,CTMRGstep::Int64)
     D,J=2,1.0
-    Env=jldopen("../Env/Env_Dbond=$(Dbond)_Tem=$(Tem).jld2","r")
+    Env=jldopen("./Env/Env_Dbond=$(Dbond)_Tem=$(Tem).jld2","r")
     edge=read(Env,"edge")
     corner=read(Env,"corner")
     close(Env)
@@ -120,22 +121,22 @@ function main(Tem::Float64,Dbond::Int64,CTMRGstep::Int64)
     @time U_AD = -gradient(Z, BetaT)[1]
     @show U_AD
 
-    @time Cv_AD1 = BetaT*BetaT* hessian(Z, BetaT)
+    @time Cv_AD1 = BetaT*BetaT*  hessian(Z, BetaT)
     @show  Cv_AD1
 
 
-    open( "../data/Ising_AD_CTMRGstep=$(CTMRGstep)_D=$(Dbond).txt", "a" ) do io  
-        writedlm( io, [1/Tem  lnz  Magnetization  Uenergy Cm  Cv U_AD Cv_AD1  ] )
-    end
+    # open( "./data/Ising_AD_CTMRGstep=$(CTMRGstep)_D=$(Dbond).txt", "a" ) do io  
+    #     writedlm( io, [1/Tem  lnz  Magnetization  Uenergy Cm  Cv U_AD Cv_AD1  ] )
+    # end
 
     return nothing
 end
 
 
 function test()
-    tem =  vcat(collect(2:0.005:2.268),collect(2.269:0.001:2.27),collect(2.271:0.005:2.5))
+    tem = [2.0]
     for i in tem
-        @time main(i,80,10)
+        @time main(i,20,10)
     end
 end
 test()

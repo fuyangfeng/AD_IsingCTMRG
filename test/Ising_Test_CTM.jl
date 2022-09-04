@@ -1,7 +1,8 @@
-using LinearAlgebra: norm,Diagonal,tr ,svd
+using LinearAlgebra: norm,Diagonal,tr
 using OMEinsum 
 using DelimitedFiles
 using JLD2
+
 include("../src/CTM.jl")
 include("../src/Ising_tensor.jl")
 function GetFMU(Corner::Matrix{Float64}, Edge::Array{Float64,3}, T::Array{Float64,4}, Tm::Array{Float64,4}, Tu::Array{Float64,4})
@@ -39,8 +40,8 @@ function main(Tem::Float64,Dbond::Int64)
 
     # step 2 : initial environment
 
-    if "Env_Dbond=$(Dbond)_Tem=$(Tem).jld2" in readdir("../../Env/")
-        Env=jldopen("../Env/Env_Dbond=$(Dbond)_Tem=$(Tem).jld2","r")
+    if "Env_Dbond=$(Dbond)_Tem=$(Tem).jld2" in readdir("./Env/")
+        Env=jldopen("./Env/Env_Dbond=$(Dbond)_Tem=$(Tem).jld2","r")
         edge=read(Env,"edge")
         corner=read(Env,"corner")
         close(Env)
@@ -53,7 +54,7 @@ function main(Tem::Float64,Dbond::Int64)
 
     # step 3 : perform CTM and save the lastest environment
     @time  edge, corner,EntangS, diff,TrunError = CTM(corner, edge,T,Tm,Tu, D,Dbond, step, 1e-16)
-    Env = jldopen("../Env/Env_Dbond=$(Dbond)_Tem=$(Tem).jld2","w")
+    Env = jldopen("./Env/Env_Dbond=$(Dbond)_Tem=$(Tem).jld2","w")
     write(Env, "edge", edge)
     write(Env, "corner", corner)
     close(Env)
@@ -61,10 +62,10 @@ function main(Tem::Float64,Dbond::Int64)
     # step 4 : get observed value, such as F, M, U,S
     Fenergy,m,U=GetFMU(corner, edge, T, Tm,Tu)
     Fenergy = Tem * Fenergy
-    open( "../data/Ising_FMUS_D=$(Dbond).txt", "a" ) do io  
+    open( "./data/Ising_FMUS_D=$(Dbond).txt", "a" ) do io  
         writedlm( io, [Tem  Fenergy  m U EntangS  ] )
     end
-    open( "../data/Ising_TrunErro_D=$(Dbond).txt", "a" ) do io  
+    open( "./data/Ising_TrunErro_D=$(Dbond).txt", "a" ) do io  
         writedlm( io, hcat([Tem] , TrunError) )
     end
 
@@ -75,9 +76,9 @@ end
 
 
 function test()  # warm up for Ising_Test_CTM_AD.jl, get convergent environment
-    tem =  vcat(collect(2:0.005:2.268),collect(2.269:0.001:2.27),collect(2.271:0.005:2.5))
+    tem = [2.0]
     for i in tem
-        @time main(i,80)
+        @time main(i,20)
     end
 end
 test()
