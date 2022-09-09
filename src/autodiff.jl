@@ -1,6 +1,6 @@
 using ChainRulesCore
 using LinearAlgebra
-import LinearAlgebra: svd
+import  GenericLinearAlgebra: svd
 
 mysvd(A) = svd(A)
 """
@@ -19,7 +19,7 @@ function ChainRulesCore.rrule(::typeof(mysvd), A::AbstractArray{T,2}) where {T}
     return (U, S, V), back
 end
 
-function svd_back(U::AbstractArray, S::AbstractArray{T}, V, dU, dS, dV; η::Real=10^-2) where T
+function svd_back(U::AbstractArray, S::AbstractArray{T}, V, dU, dS, dV; η::Real=10^-12) where T
     η = T(η)
     S2 = S .^ 2
     Sinv = @. S/(S2+η)

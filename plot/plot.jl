@@ -49,25 +49,25 @@ function getmyfig()
 
 
     flag = [1 4]
-    flag=vcat(flag, [2 4])
-    flag=vcat(flag, [3 6])
+    # flag=vcat(flag, [2 4])
+    # flag=vcat(flag, [3 6])
     flag=vcat(flag, [3 8])
     legendlabel2 = []  
     legendlabel2=vcat(legendlabel2, [  "exact solution"  ])
-    legendlabel2=vcat(legendlabel2, [  "TRGstep=40"  ])
-    legendlabel2=vcat(legendlabel2, [  "CTMRGstep=10_AD by U"  ])
+    # legendlabel2=vcat(legendlabel2, [  "TRGstep=40"  ])
+    # legendlabel2=vcat(legendlabel2, [  "CTMRGstep=10_AD by U"  ])
     legendlabel2=vcat(legendlabel2, [  "CTMRGstep=10_AD by F"  ])
     myplot2(path,flag,legendlabel2 ,["β","Cv"])
 
 
     flag = [1 3]
-    flag=vcat(flag, [2 3])
-    flag=vcat(flag, [3 4])
+    # flag=vcat(flag, [2 3])
+    # flag=vcat(flag, [3 4])
     flag=vcat(flag, [3 7])
     legendlabel2 = []  
     legendlabel2=vcat(legendlabel2, [  "exact solution"  ])
-    legendlabel2=vcat(legendlabel2, [  "TRGstep=40"  ])
-    legendlabel2=vcat(legendlabel2, [  "CTMRGstep = 10"  ])
+    # legendlabel2=vcat(legendlabel2, [  "TRGstep=40"  ])
+    # legendlabel2=vcat(legendlabel2, [  "CTMRGstep = 10"  ])
     legendlabel2=vcat(legendlabel2, [  "CTMRGstep = 10_AD"  ])
     myplot2(path,flag,legendlabel2 ,["β","Uenergy"])
 

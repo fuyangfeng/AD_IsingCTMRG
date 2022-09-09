@@ -125,18 +125,19 @@ function main(Tem::Float64,Dbond::Int64,CTMRGstep::Int64)
     @show  Cv_AD1
 
 
-    # open( "./data/Ising_AD_CTMRGstep=$(CTMRGstep)_D=$(Dbond).txt", "a" ) do io  
-    #     writedlm( io, [1/Tem  lnz  Magnetization  Uenergy Cm  Cv U_AD Cv_AD1  ] )
-    # end
+    open( "./data/Ising_AD_CTMRGstep=$(CTMRGstep)_D=$(Dbond).txt", "a" ) do io  
+        writedlm( io, [1/Tem  lnz  Magnetization  Uenergy Cm  Cv U_AD Cv_AD1  ] )
+    end
 
     return nothing
 end
 
 
 function test()
-    tem = [2.0]
+    # tem = [2.0]
+    tem = vcat(collect(2:0.005:2.268),collect(2.269:0.001:2.27),collect(2.271:0.005:2.5))
     for i in tem
-        @time main(i,20,10)
+        @time main(i,80,10)
     end
 end
 test()
